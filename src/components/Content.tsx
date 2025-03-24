@@ -1,5 +1,5 @@
-const Content:React.FC = () => {
-    return <div>Content</div>
-}
+const Content: React.FC = () => {
+  return <div style={{ background: "red" }}>Content</div>;
+};
 
 export default Content;
