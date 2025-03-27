@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AddAsset from "./AddAsset";
+import Assets from "./Assets";
 
 export type Asset = { name: string; balance: number };
 
@@ -12,14 +13,7 @@ const Content: React.FC = () => {
           setAssets(assets.concat(asset));
         }}
       />
-      <div>
-        {assets.map((asset) => (
-          <div>
-            asset:{asset.name}
-            <br /> balance: {asset.balance}
-          </div>
-        ))}
-      </div>
+      <Assets assets={assets} />
     </div>
   );
 };
