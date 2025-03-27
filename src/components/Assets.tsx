@@ -3,7 +3,6 @@ import { Asset } from "./Content";
 type AssetsProps = { assets: Asset[] };
 
 const Assets: React.FC<AssetsProps> = (props) => {
-  const { assets } = props;
   return (
     <div>
       {assets.map((asset) => (
