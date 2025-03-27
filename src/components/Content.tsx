@@ -1,38 +1,17 @@
 import { useState } from "react";
+import AddAsset from "./AddAsset";
 
-type Asset = { name: string; balance: number };
+export type Asset = { name: string; balance: number };
 
 const Content: React.FC = () => {
-  const [assetName, setAssetName] = useState<string>("");
-  const [assetBalance, setAssetBalance] = useState<number>(0);
-
   const [assets, setAssets] = useState<Asset[]>([]);
   return (
     <div>
-      <section>
-        <label htmlFor={"asset_name"}>Asset name</label>
-        <input
-          id={"asset_name"}
-          type={"text"}
-          value={assetName}
-          onChange={(event) => setAssetName(event.target.value)}
-        />
-        <input
-          id={"asset_balance"}
-          type={"number"}
-          value={assetBalance}
-          onChange={(event) => {
-            setAssetBalance(parseInt(event.target.value));
-          }}
-        />
-        <button
-          onClick={() =>
-            setAssets(assets.concat({ name: assetName, balance: assetBalance }))
-          }
-        >
-          Add Asset
-        </button>
-      </section>
+      <AddAsset
+        onAdd={(asset: Asset) => {
+          setAssets(assets.concat(asset));
+        }}
+      />
       <div>
         {assets.map((asset) => (
           <div>
