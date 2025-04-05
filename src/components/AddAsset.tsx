@@ -3,8 +3,7 @@ import { Asset } from "./Content";
 
 type AddAssetProps = { onAdd: (asset: Asset) => void };
 
-const AddAsset: React.FC<AddAssetProps> = (props) => {
-  const { onAdd } = props;
+const AddAsset: React.FC<AddAssetProps> = ({ onAdd }) => {
   const [assetName, setAssetName] = useState<string>("");
   const [assetBalance, setAssetBalance] = useState<number>(0);
 
@@ -19,6 +18,7 @@ const AddAsset: React.FC<AddAssetProps> = (props) => {
       />
       <label htmlFor={"asset_balance"}>Balance</label>
       <input
+        min="0"
         id={"asset_balance"}
         type={"number"}
         value={assetBalance}
@@ -26,7 +26,14 @@ const AddAsset: React.FC<AddAssetProps> = (props) => {
           setAssetBalance(parseInt(event.target.value));
         }}
       />
-      <button onClick={() => onAdd({ name: assetName, balance: assetBalance })}>
+      <button
+        disabled={assetName === "" || assetBalance < 0}
+        onClick={() => {
+          onAdd({ name: assetName, balance: assetBalance });
+          setAssetName("");
+          setAssetBalance(0);
+        }}
+      >
         Add Asset
       </button>
     </section>
