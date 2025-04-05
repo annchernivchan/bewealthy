@@ -2,13 +2,20 @@ import { useEffect, useState } from "react";
 import AddAsset from "./AddAsset";
 import Assets from "./Assets";
 
-export type Asset = { name: string; balance: number };
+export type Asset = { name: string; balance: number; id: string };
 
 const Content: React.FC = () => {
   const initialAssets = JSON.parse(
     localStorage.getItem("assets") || "[]"
   ) as Asset[];
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
+
+  const deleteAsset = (id: string) => {
+    const filteredAssets = assets.filter((asset) => {
+      return asset.id !== id;
+    });
+    setAssets(filteredAssets);
+  };
 
   useEffect(() => {
     localStorage.setItem("assets", JSON.stringify(assets));
@@ -21,7 +28,7 @@ const Content: React.FC = () => {
           setAssets(assets.concat(asset));
         }}
       />
-      <Assets assets={assets} />
+      <Assets assets={assets} onDelete={deleteAsset} />
     </div>
   );
 };

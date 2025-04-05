@@ -29,7 +29,11 @@ const AddAsset: React.FC<AddAssetProps> = ({ onAdd }) => {
       <button
         disabled={assetName === "" || assetBalance < 0}
         onClick={() => {
-          onAdd({ name: assetName, balance: assetBalance });
+          onAdd({
+            name: assetName,
+            balance: assetBalance,
+            id: Math.random().toString(36).substring(2, 10),
+          });
           setAssetName("");
           setAssetBalance(0);
         }}
