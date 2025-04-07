@@ -8,16 +8,10 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete }) => {
     <div>
       {assets.map((asset) => (
         <div key={asset.id}>
-          asset:{asset.name}
+          asset: {asset.name}
           <br /> balance: {asset.balance}
           <br />
-          <button
-            onClick={() => {
-              onDelete(asset.id);
-            }}
-          >
-            Delete
-          </button>
+          <button onClick={() => onDelete(asset.id)}>Delete</button>
         </div>
       ))}
     </div>
