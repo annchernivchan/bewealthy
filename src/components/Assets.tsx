@@ -1,4 +1,5 @@
-import { Asset } from "./Content";
+import { Asset } from './Content';
+import * as React from 'react';
 
 type AssetsProps = { assets: Asset[]; onDelete: (id: string) => void };
 
