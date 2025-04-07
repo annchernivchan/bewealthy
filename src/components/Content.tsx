@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import AddAsset from './AddAsset';
 import Assets from './Assets';
 import * as React from 'react';
-import ActionAreaCard from './ActionAreaCard.tsx';
+import Balance from './TotalBalance.tsx';
 
 export type Asset = { name: string; balance: number; id: string };
 
-const ASSETS_KEY = "assets";
+const ASSETS_KEY = 'assets';
 
 const Content: React.FC = () => {
   const initialAssetsString = localStorage.getItem(ASSETS_KEY);
@@ -17,7 +17,7 @@ const Content: React.FC = () => {
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
 
   const deleteAsset = (id: string) => {
-    const filteredAssets = assets.filter((asset) => {
+    const filteredAssets = assets.filter(asset => {
       return asset.id !== id;
     });
     setAssets(filteredAssets);
@@ -29,13 +29,15 @@ const Content: React.FC = () => {
 
   return (
     <div style={{ display: 'block', gap: '16px' }}>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        gap: '16px'
-      }}>
-        <ActionAreaCard assets={assets} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          gap: '16px',
+        }}
+      >
+        <Balance assets={assets} />
       </div>
       <div style={{ fontSize: '20px', marginLeft: '10px' }}>
         <AddAsset

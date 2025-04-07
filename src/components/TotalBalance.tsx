@@ -5,23 +5,23 @@ type Props = {
   assets: Asset[];
 };
 
-const ActionAreaCard: React.FC<Props> = ({ assets }) => {
+const TotalBalance: React.FC<Props> = ({ assets }) => {
   const totalAssetsBalance = assets
-    .map((asset) => asset.balance)
+    .map(asset => asset.balance)
     .reduce((acc, val) => acc + val, 0);
 
   return (
     <div
       style={{
         padding: '10px',
-        fontFamily: 'sans-serif'
+        fontFamily: 'sans-serif',
       }}
     >
       <div
         style={{
           color: '#6c6c70',
           fontSize: '18px',
-          marginBottom: '5px'
+          marginBottom: '5px',
         }}
       >
         Total balance
@@ -30,7 +30,7 @@ const ActionAreaCard: React.FC<Props> = ({ assets }) => {
         style={{
           color: '#1c1c1e',
           fontSize: '26px',
-          fontWeight: '400'
+          fontWeight: '400',
         }}
       >
         {totalAssetsBalance}
@@ -39,4 +39,4 @@ const ActionAreaCard: React.FC<Props> = ({ assets }) => {
   );
 };
 
-export default ActionAreaCard;
+export default TotalBalance;
