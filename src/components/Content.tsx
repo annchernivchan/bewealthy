@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
-import AddAsset from './AddAsset';
-import Assets from './Assets';
-import * as React from 'react';
+import { useEffect, useState } from "react";
+import AddAsset from "./AddAsset";
+import Assets from "./Assets";
+import * as React from "react";
 
 export type Asset = { name: string; balance: number; id: string };
 
+const ASSETS_KEY = "assets";
+
 const Content: React.FC = () => {
-  const initialAssets = JSON.parse(
-    localStorage.getItem('assets') || '[]'
-  ) as Asset[];
+  const initialAssetsString = localStorage.getItem(ASSETS_KEY);
+  const initialAssets = initialAssetsString
+    ? (JSON.parse(initialAssetsString) as Asset[])
+    : [];
+
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
 
   const deleteAsset = (id: string) => {
@@ -19,7 +23,7 @@ const Content: React.FC = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('assets', JSON.stringify(assets));
+    localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
   }, [assets]);
 
   return (
