@@ -1,15 +1,10 @@
-import { Asset } from './Content.tsx';
 import * as React from 'react';
 
-type Props = {
-  assets: Asset[];
+type TotalBalanceProps = {
+  balance: number;
 };
 
-const TotalBalance: React.FC<Props> = ({ assets }) => {
-  const totalAssetsBalance = assets
-    .map(asset => asset.balance)
-    .reduce((acc, val) => acc + val, 0);
-
+const TotalBalance: React.FC<TotalBalanceProps> = ({ balance }) => {
   return (
     <div
       style={{
@@ -33,7 +28,7 @@ const TotalBalance: React.FC<Props> = ({ assets }) => {
           fontWeight: '400',
         }}
       >
-        {totalAssetsBalance}
+        {balance}
       </div>
     </div>
   );

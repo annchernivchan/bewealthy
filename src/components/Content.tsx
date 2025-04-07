@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import AddAsset from './AddAsset';
 import Assets from './Assets';
 import * as React from 'react';
-import Balance from './TotalBalance.tsx';
+import TotalBalance from './TotalBalance.tsx';
 
 export type Asset = { name: string; balance: number; id: string };
 
@@ -23,6 +23,10 @@ const Content: React.FC = () => {
     setAssets(filteredAssets);
   };
 
+  const totalAssetsBalance = assets
+    .map(asset => asset.balance)
+    .reduce((acc, val) => acc + val, 0);
+
   useEffect(() => {
     localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
   }, [assets]);
@@ -37,7 +41,7 @@ const Content: React.FC = () => {
           gap: '16px',
         }}
       >
-        <Balance assets={assets} />
+        <TotalBalance balance={totalAssetsBalance} />
       </div>
       <div style={{ fontSize: '20px', marginLeft: '10px' }}>
         <AddAsset
