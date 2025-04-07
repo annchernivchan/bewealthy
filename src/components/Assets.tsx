@@ -1,5 +1,5 @@
-import { Asset } from "./Content";
-import * as React from "react";
+import { Asset } from './Content';
+import * as React from 'react';
 
 type AssetsProps = { assets: Asset[]; onDelete: (id: string) => void };
 
@@ -7,7 +7,7 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete }) => {
   return (
     <div>
       {assets.map((asset) => (
-        <div>
+        <div key={asset.id}>
           asset: {asset.name}
           <br /> balance: {asset.balance}
           <br />
