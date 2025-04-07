@@ -27,7 +27,7 @@ const Content: React.FC = () => {
   }, [assets]);
 
   return (
-    <div style={{ fontSize: "20px" }}>
+    <div style={{ fontSize: '20px' }}>
       <AddAsset
         onAdd={(asset: Asset) => {
           setAssets(assets.concat(asset));
