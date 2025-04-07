@@ -20,6 +20,11 @@ const AddAsset: React.FC<AddAssetProps> = ({ onAdd }) => {
             id="asset_name"
             label="Asset name"
             variant="outlined"
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
+            }}
           />
           <TextField
             id="asset_balance"
