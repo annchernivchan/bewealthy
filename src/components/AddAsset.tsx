@@ -35,9 +35,6 @@ const AddAsset: React.FC<AddAssetProps> = ({ onAdd }) => {
               setAssetBalance(parseInt(event.target.value));
             }}
             slotProps={{
-              inputLabel: {
-                shrink: true,
-              },
               input: {
                 inputProps: {
                   min: 0,
