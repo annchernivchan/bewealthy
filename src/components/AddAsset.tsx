@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Asset } from './Content';
 import * as React from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 
 type AddAssetProps = { onAdd: (asset: Asset) => void };
 
@@ -12,37 +14,50 @@ const AddAsset: React.FC<AddAssetProps> = ({ onAdd }) => {
     <section>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
         <div>
-          <label htmlFor={'asset_name'}>Asset name</label>
-          <input
-            id={'asset_name'}
-            type={'text'}
+          <TextField
+            onChange={event => setAssetName(event.target.value)}
             value={assetName}
-            onChange={(event) => setAssetName(event.target.value)}
-          />
-          <label htmlFor={'asset_balance'}>Balance</label>
-          <input
-            min="0"
-            id={'asset_balance'}
-            type={'number'}
-            value={assetBalance}
-            onChange={(event) => {
-              setAssetBalance(parseInt(event.target.value));
+            id="asset_name"
+            label="Asset name"
+            variant="outlined"
+            slotProps={{
+              inputLabel: {
+                shrink: true,
+              },
             }}
           />
-          <button
+          <TextField
+            id="asset_balance"
+            label="Number"
+            type="number"
+            value={assetBalance}
+            onChange={event => {
+              setAssetBalance(parseInt(event.target.value));
+            }}
+            slotProps={{
+              input: {
+                inputProps: {
+                  min: 0,
+                },
+              },
+            }}
+          />
+          <Button
+            variant="contained"
+            color="success"
             disabled={assetName === '' || assetBalance < 0}
             onClick={() => {
               onAdd({
                 name: assetName,
                 balance: assetBalance,
-                id: Math.random().toString(36).substring(2, 10)
+                id: Math.random().toString(36).substring(2, 10),
               });
               setAssetName('');
               setAssetBalance(0);
             }}
           >
             Add Asset
-          </button>
+          </Button>
         </div>
       </div>
     </section>
