@@ -3,6 +3,8 @@ import { Asset } from './Content';
 import * as React from 'react';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type AssetsProps = {
   assets: Asset[];
@@ -55,7 +57,7 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete, onEdit }) => {
           )}
           <Button
             variant="outlined"
-            size="medium"
+            size="large"
             onClick={() => {
               setEditingAssetId(asset.id);
             }}
@@ -67,7 +69,9 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete, onEdit }) => {
             variant="outlined"
             color="error"
           >
-            Delete
+            <IconButton aria-label="delete" size="small">
+              <DeleteIcon />
+            </IconButton>
           </Button>
         </div>
       ))}
