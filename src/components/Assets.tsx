@@ -2,7 +2,9 @@ import Button from '@mui/material/Button';
 import { Asset } from './Content';
 import * as React from 'react';
 import { useState } from 'react';
-import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import EditingAsset from './EditingAsset';
 
 type AssetsProps = {
   assets: Asset[];
@@ -12,40 +14,18 @@ type AssetsProps = {
 
 const Assets: React.FC<AssetsProps> = ({ assets, onDelete, onEdit }) => {
   const [editingAssetId, setEditingAssetId] = useState<string | undefined>();
-
   return (
     <div>
       {assets.map(asset => (
         <div key={asset.id}>
           {editingAssetId === asset.id ? (
-            <div>
-              <TextField
-                label="Asset Name"
-                variant="standard"
-                defaultValue={asset.name}
-              />
-              <br />
-              <TextField
-                label="Balance"
-                type="number"
-                variant="standard"
-                defaultValue={asset.balance}
-              />
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  onEdit({
-                    id: asset.id,
-                    name: asset.name,
-                    balance: asset.balance,
-                  });
-                  setEditingAssetId(undefined);
-                }}
-              >
-                Done
-              </Button>
-            </div>
+            <EditingAsset
+              asset={asset}
+              onEdit={asset => {
+                onEdit(asset);
+                setEditingAssetId(undefined);
+              }}
+            />
           ) : (
             <div>
               asset: {asset.name}
@@ -60,14 +40,14 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete, onEdit }) => {
               setEditingAssetId(asset.id);
             }}
           >
-            Edit
+            <EditIcon />
           </Button>
           <Button
             onClick={() => onDelete(asset.id)}
             variant="outlined"
             color="error"
           >
-            Delete
+            <DeleteOutlineIcon />
           </Button>
         </div>
       ))}
