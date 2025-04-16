@@ -23,6 +23,15 @@ const Content: React.FC = () => {
     setAssets(filteredAssets);
   };
 
+  const editAsset = (editedAsset: Asset) => {
+    const editedAssets = assets.map(asset => {
+      return asset.id === editedAsset.id
+        ? { id: asset.id, name: editedAsset.name, balance: editedAsset.balance }
+        : asset;
+    });
+    setAssets(editedAssets);
+  };
+
   const totalAssetsBalance = assets
     .map(asset => asset.balance)
     .reduce((acc, val) => acc + val, 0);
@@ -49,7 +58,7 @@ const Content: React.FC = () => {
             setAssets(assets.concat(asset));
           }}
         />
-        <Assets assets={assets} onDelete={deleteAsset} />
+        <Assets assets={assets} onDelete={deleteAsset} onEdit={editAsset} />
       </div>
     </div>
   );
