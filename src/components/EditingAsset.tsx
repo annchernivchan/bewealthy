@@ -7,8 +7,8 @@ import DoneIcon from '@mui/icons-material/Done';
 type EditingAssetProps = { asset: Asset; onEdit: (asset: Asset) => void };
 
 const EditingAsset: React.FC<EditingAssetProps> = ({ asset, onEdit }) => {
-  const [newAssetName, setNewAssetName] = useState<string>('');
-  const [newAssetBalance, setNewAssetBalance] = useState<number>(0);
+  const [newAssetName, setNewAssetName] = useState<string>(asset.name);
+  const [newAssetBalance, setNewAssetBalance] = useState<number>(asset.balance);
 
   return (
     <div>
