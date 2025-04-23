@@ -5,6 +5,7 @@ import { useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import Drawer from '@mui/material/Drawer';
 import { Box } from '@mui/material';
+import ConfirmationDialog from './ConfirmationDialog';
 
 type EditingAssetProps = {
   asset: Asset;
@@ -21,47 +22,82 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
 }) => {
   const [newAssetName, setNewAssetName] = useState<string>(asset.name);
   const [newAssetBalance, setNewAssetBalance] = useState<number>(asset.balance);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   return (
-    <Drawer anchor="right" open={isOpen} onClose={onClose}>
-      <Box sx={{ padding: '24px' }} role="presentation">
-        <div style={{ fontSize: '23px', marginBottom: '20px' }}>Edit Asset</div>
-        <TextField
-          style={{ marginBottom: '16px' }}
-          label="Asset Name"
-          variant="standard"
-          defaultValue={asset.name}
-          onChange={event => {
-            setNewAssetName(event.target.value);
-          }}
-        />
-        <br />
-        <TextField
-          label="Balance"
-          style={{ marginBottom: '16px' }}
-          type="number"
-          variant="standard"
-          defaultValue={asset.balance}
-          onChange={event => {
-            setNewAssetBalance(parseInt(event.target.value));
-          }}
-        />
-        <br />
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => {
-            onEdit({
-              id: asset.id,
-              name: newAssetName,
-              balance: newAssetBalance,
-            });
-          }}
-        >
-          <DoneIcon />
-        </Button>
-      </Box>
-    </Drawer>
+    <>
+      <ConfirmationDialog
+        open={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          onClose();
+          setNewAssetName(asset.name);
+          setNewAssetBalance(asset.balance);
+        }}
+        onSave={() => {
+          setDialogOpen(false);
+          onEdit({
+            id: asset.id,
+            name: newAssetName,
+            balance: newAssetBalance,
+          });
+        }}
+      />
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={() => {
+          if (
+            newAssetName === asset.name &&
+            newAssetBalance === asset.balance
+          ) {
+            onClose();
+          } else {
+            setDialogOpen(true);
+          }
+        }}
+      >
+        <Box sx={{ padding: '24px' }} role="presentation">
+          <div style={{ fontSize: '23px', marginBottom: '20px' }}>
+            Edit Asset
+          </div>
+          <TextField
+            style={{ marginBottom: '16px' }}
+            label="Asset Name"
+            variant="standard"
+            defaultValue={asset.name}
+            onChange={event => {
+              setNewAssetName(event.target.value);
+            }}
+          />
+          <br />
+          <TextField
+            label="Balance"
+            style={{ marginBottom: '16px' }}
+            type="number"
+            variant="standard"
+            defaultValue={asset.balance}
+            onChange={event => {
+              setNewAssetBalance(parseInt(event.target.value));
+            }}
+          />
+          <br />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              onEdit({
+                id: asset.id,
+                name: newAssetName,
+                balance: newAssetBalance,
+              });
+            }}
+          >
+            <DoneIcon />
+          </Button>
+        </Box>
+      </Drawer>
+    </>
   );
 };
 
