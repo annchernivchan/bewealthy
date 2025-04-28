@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import AddAsset from './AddAsset';
 import Assets from './Assets';
 import * as React from 'react';
 import TotalBalance from './TotalBalance.tsx';
+import Button from '@mui/material/Button';
+import CreateAssetDrawer from './CreateAssetDrawer.tsx';
 
 export type Asset = { name: string; balance: number; id: string };
 
@@ -10,6 +11,7 @@ const ASSETS_KEY = 'assets';
 
 const Content: React.FC = () => {
   const initialAssetsString = localStorage.getItem(ASSETS_KEY);
+  const [openAddAsset, setOpenAddAsset] = useState<boolean>(false);
   const initialAssets = initialAssetsString
     ? (JSON.parse(initialAssetsString) as Asset[])
     : [];
@@ -45,19 +47,35 @@ const Content: React.FC = () => {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
+          flexDirection: 'row',
+          alignItems: 'center',
           gap: '16px',
+          justifyContent: 'space-between',
+          marginTop: '16px',
+          marginRight: '16px',
         }}
       >
         <TotalBalance balance={totalAssetsBalance} />
-      </div>
-      <div style={{ fontSize: '20px', marginLeft: '10px' }}>
-        <AddAsset
+        <CreateAssetDrawer
           onAdd={(asset: Asset) => {
             setAssets(assets.concat(asset));
+            setOpenAddAsset(false);
+          }}
+          isOpen={openAddAsset}
+          onClose={() => {
+            setOpenAddAsset(false);
           }}
         />
+        <Button
+          variant="contained"
+          onClick={() => {
+            setOpenAddAsset(true);
+          }}
+        >
+          Add Asset
+        </Button>
+      </div>
+      <div style={{ fontSize: '20px', marginLeft: '10px' }}>
         <Assets assets={assets} onDelete={deleteAsset} onEdit={editAsset} />
       </div>
     </div>
