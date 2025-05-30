@@ -5,7 +5,12 @@ import TotalBalance from './TotalBalance.tsx';
 import Button from '@mui/material/Button';
 import CreateAssetDrawer from './CreateAssetDrawer.tsx';
 
-export type Asset = { name: string; balance: number; id: string };
+export type Asset = {
+  name: string;
+  balance: number;
+  currency: string;
+  id: string;
+};
 
 const ASSETS_KEY = 'assets';
 
@@ -28,7 +33,12 @@ const Content: React.FC = () => {
   const editAsset = (editedAsset: Asset) => {
     const editedAssets = assets.map(asset => {
       return asset.id === editedAsset.id
-        ? { id: asset.id, name: editedAsset.name, balance: editedAsset.balance }
+        ? {
+            id: asset.id,
+            name: editedAsset.name,
+            balance: editedAsset.balance,
+            currency: editedAsset.currency,
+          }
         : asset;
     });
     setAssets(editedAssets);

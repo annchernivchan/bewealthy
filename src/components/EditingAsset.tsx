@@ -4,7 +4,7 @@ import { Asset } from './Content';
 import { useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import Drawer from '@mui/material/Drawer';
-import { Box } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ConfirmationDialog from './ConfirmationDialog';
 
 type EditingAssetProps = {
@@ -22,6 +22,9 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
 }) => {
   const [newAssetName, setNewAssetName] = useState<string>(asset.name);
   const [newAssetBalance, setNewAssetBalance] = useState<number>(asset.balance);
+  const [newAssetCurrency, setNewAssetCurrency] = useState<string>(
+    asset.currency,
+  );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   return (
@@ -33,6 +36,7 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
           onClose();
           setNewAssetName(asset.name);
           setNewAssetBalance(asset.balance);
+          setNewAssetCurrency(asset.currency);
         }}
         onSave={() => {
           setDialogOpen(false);
@@ -40,6 +44,7 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
             id: asset.id,
             name: newAssetName,
             balance: newAssetBalance,
+            currency: newAssetCurrency,
           });
         }}
       />
@@ -82,7 +87,23 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
             }}
           />
           <br />
+          <FormControl sx={{ minWidth: 120 }} size="small">
+            <InputLabel id="currency-label">Currency</InputLabel>
+            <Select
+              defaultValue={asset.currency}
+              labelId="currency-label"
+              id="currency-select"
+              label="Currency"
+              onChange={event => setNewAssetCurrency(event.target.value)}
+            >
+              <MenuItem value="ГРН">ГРН</MenuItem>
+              <MenuItem value={'$'}>$</MenuItem>
+              <MenuItem value={'€'}>€</MenuItem>
+            </Select>
+          </FormControl>
+          <br />
           <Button
+            style={{ marginTop: 16 }}
             variant="contained"
             color="success"
             onClick={() => {
@@ -90,6 +111,7 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
                 id: asset.id,
                 name: newAssetName,
                 balance: newAssetBalance,
+                currency: newAssetCurrency,
               });
             }}
           >
