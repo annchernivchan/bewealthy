@@ -4,6 +4,10 @@ import { useState } from 'react';
 import { Asset } from './Content';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 
 type AddAssetProps = {
   onAdd: (asset: Asset) => void;
@@ -18,6 +22,11 @@ const CreateAssetDrawer: React.FC<AddAssetProps> = ({
 }) => {
   const [assetName, setAssetName] = useState<string>('');
   const [assetBalance, setAssetBalance] = useState<number>(0);
+  const [assetCurrency, setAssetCurrency] = useState<string>('');
+
+  const isDisabled =
+    assetName === '' || assetBalance < 0 || assetCurrency === '';
+
   return (
     <Drawer anchor="right" open={isOpen} onClose={onClose}>
       <Box sx={{ padding: '24px' }} role="presentation">
@@ -38,7 +47,7 @@ const CreateAssetDrawer: React.FC<AddAssetProps> = ({
         <br />
         <TextField
           id="asset_balance"
-          label="Number"
+          label="Balance"
           type="number"
           style={{ marginBottom: '16px' }}
           value={assetBalance}
@@ -54,18 +63,37 @@ const CreateAssetDrawer: React.FC<AddAssetProps> = ({
           }}
         />
         <br />
+        <FormControl sx={{ minWidth: 120 }} size="small">
+          <InputLabel id="demo-select-small-label">Currency</InputLabel>
+          <Select
+            defaultValue={''}
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            label="Currency"
+            onChange={event => setAssetCurrency(event.target.value)}
+          >
+            <MenuItem value=""></MenuItem>
+            <MenuItem value="ГРН">ГРН</MenuItem>
+            <MenuItem value={'$'}>$</MenuItem>
+            <MenuItem value={'€'}>€</MenuItem>
+          </Select>
+        </FormControl>
+        <br />
         <Button
+          style={{ marginTop: 16 }}
           variant="contained"
           color="success"
-          disabled={assetName === '' || assetBalance < 0}
+          disabled={isDisabled}
           onClick={() => {
             onAdd({
               name: assetName,
               balance: assetBalance,
+              currency: assetCurrency,
               id: Math.random().toString(36).substring(2, 10),
             });
             setAssetName('');
             setAssetBalance(0);
+            setAssetCurrency('');
           }}
         >
           Add Asset

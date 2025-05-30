@@ -41,7 +41,9 @@ const Assets: React.FC<AssetsProps> = ({ assets, onDelete, onEdit }) => {
               <TableCell component="th" scope="row">
                 {asset.name}
               </TableCell>
-              <TableCell align="right">{asset.balance}</TableCell>
+              <TableCell align="right">
+                {asset.balance} {asset.currency}
+              </TableCell>
               <TableCell align="right">
                 <Button
                   variant="outlined"
