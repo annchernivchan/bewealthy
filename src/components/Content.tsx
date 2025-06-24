@@ -4,11 +4,12 @@ import * as React from 'react';
 import TotalBalance from './TotalBalance.tsx';
 import Button from '@mui/material/Button';
 import CreateAssetDrawer from './CreateAssetDrawer.tsx';
+import { Currency } from '../types/types.ts';
 
 export type Asset = {
   name: string;
   balance: number;
-  currency: string;
+  currency: Currency;
   id: string;
 };
 

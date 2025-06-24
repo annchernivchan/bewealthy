@@ -6,6 +6,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import Drawer from '@mui/material/Drawer';
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import ConfirmationDialog from './ConfirmationDialog';
+import { EUR, UAH, USD } from '../constants/CurrencyConstants';
+import { Currency } from '../types/types';
 
 type EditingAssetProps = {
   asset: Asset;
@@ -22,7 +24,7 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
 }) => {
   const [newAssetName, setNewAssetName] = useState<string>(asset.name);
   const [newAssetBalance, setNewAssetBalance] = useState<number>(asset.balance);
-  const [newAssetCurrency, setNewAssetCurrency] = useState<string>(
+  const [newAssetCurrency, setNewAssetCurrency] = useState<Currency>(
     asset.currency,
   );
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
@@ -94,11 +96,13 @@ const EditingAsset: React.FC<EditingAssetProps> = ({
               labelId="currency-label"
               id="currency-select"
               label="Currency"
-              onChange={event => setNewAssetCurrency(event.target.value)}
+              onChange={event =>
+                setNewAssetCurrency(event.target.value as Currency)
+              }
             >
-              <MenuItem value="ГРН">ГРН</MenuItem>
-              <MenuItem value={'$'}>$</MenuItem>
-              <MenuItem value={'€'}>€</MenuItem>
+              <MenuItem value={UAH}>{UAH}</MenuItem>
+              <MenuItem value={USD}>{USD}</MenuItem>
+              <MenuItem value={EUR}>{EUR}</MenuItem>
             </Select>
           </FormControl>
           <br />
