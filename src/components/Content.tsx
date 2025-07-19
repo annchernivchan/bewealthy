@@ -4,24 +4,31 @@ import * as React from 'react';
 import TotalBalance from './TotalBalance.tsx';
 import Button from '@mui/material/Button';
 import CreateAssetDrawer from './CreateAssetDrawer.tsx';
+import { Currency } from '../types/types.ts';
+import { UAH } from '../constants/CurrencyConstants.ts';
 
 export type Asset = {
   name: string;
   balance: number;
-  currency: string;
+  currency: Currency;
   id: string;
 };
 
 const ASSETS_KEY = 'assets';
+const CURRENCY_KEY = 'currency';
 
 const Content: React.FC = () => {
   const initialAssetsString = localStorage.getItem(ASSETS_KEY);
+  const initialCurrency = (localStorage.getItem(CURRENCY_KEY) ||
+    UAH) as Currency;
   const [openAddAsset, setOpenAddAsset] = useState<boolean>(false);
   const initialAssets = initialAssetsString
     ? (JSON.parse(initialAssetsString) as Asset[])
     : [];
 
   const [assets, setAssets] = useState<Asset[]>(initialAssets);
+  const [selectedCurrency, setSelectedCurrency] =
+    useState<Currency>(initialCurrency);
 
   const deleteAsset = (id: string) => {
     const filteredAssets = assets.filter(asset => {
@@ -45,12 +52,18 @@ const Content: React.FC = () => {
   };
 
   const totalAssetsBalance = assets
-    .map(asset => asset.balance)
+    .map(asset => {
+      return asset.balance;
+    })
     .reduce((acc, val) => acc + val, 0);
 
   useEffect(() => {
     localStorage.setItem(ASSETS_KEY, JSON.stringify(assets));
   }, [assets]);
+
+  useEffect(() => {
+    localStorage.setItem(CURRENCY_KEY, selectedCurrency);
+  }, [selectedCurrency]);
 
   return (
     <div style={{ display: 'block', gap: '16px' }}>
@@ -65,7 +78,13 @@ const Content: React.FC = () => {
           marginRight: '16px',
         }}
       >
-        <TotalBalance balance={totalAssetsBalance} />
+        <TotalBalance
+          balance={totalAssetsBalance}
+          selectedCurrency={selectedCurrency}
+          onCurrencyChange={newCurrency => {
+            setSelectedCurrency(newCurrency);
+          }}
+        />
         <CreateAssetDrawer
           onAdd={(asset: Asset) => {
             setAssets(assets.concat(asset));
